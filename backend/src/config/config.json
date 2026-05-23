@@ -1,0 +1,15 @@
+{
+  "server": {
+    "port": 3000,
+    "corsOrigin": "http://localhost:5173"
+  },
+  "jwt": {
+    "expiresIn": "6h"
+  },
+  "api": {
+    "prefixAuth": "/auth",
+    "prefixChecklist": "/checklists",
+    "prefixAtracao": "/atracao",
+    "prefixPergunta": "/pergunta"
+  }
+}

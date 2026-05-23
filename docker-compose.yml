@@ -1,0 +1,15 @@
+services:
+  db_aquasafe:
+    image: postgres:15-alpine
+    container_name: db_acquacheck_container
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/docker/postgres:/docker-entrypoint-initdb.d
+
+volumes:
+  postgres_data:

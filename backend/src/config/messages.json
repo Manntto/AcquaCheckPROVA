@@ -1,0 +1,30 @@
+{
+  "common": {
+    "serverError": "Erro inesperado no Servidor",
+    "deleted": "Excluído com sucesso!"
+  },
+  "auth": {
+    "userNotFound": "Usuário não encontrado",
+    "invalidPassword": "Senha incorreta",
+    "noToken": "Usuário não autenticado",
+    "invalidToken": "Token não validado"
+  },
+  "attraction": {
+    "requiredName": "Insira um nome para a atração",
+    "created": "Atração criada com sucesso!",
+    "deleted": "Atração excluída com sucesso!"
+  },
+  "checklist": {
+    "requiredAttraction": "Insira a atração",
+    "created": "Checklist criado com sucesso",
+    "fetchError": "Falha ao buscar Checklist",
+    "createError": "Erro ao criar Checklist",
+    "deleted": "Checklist excluída com sucesso!"
+  },
+  "question": {
+    "requiredText": "Adicione uma pergunta para a atração",
+    "created": "Pergunta adicionada com Sucesso!",
+    "fetchError": "Falha ao adicionar a pergunta",
+    "Deleted": "Pergunta deletada com sucesso!"
+  }
+}
