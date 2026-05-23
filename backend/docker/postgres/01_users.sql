@@ -6,7 +6,5 @@ CREATE TABLE users (
   role VARCHAR(100)
 );
 
-
 INSERT INTO users (name, email, password, role) VALUES 
-('Maximus Ponciano', 'admin@acquacheck.com', '31599499', 'admin'),
-('João Silva', 'operador@acquacheck.com', '123456', 'lifeguard');
+('Maximus Ponciano', 'admin@acquacheck.com', '$2b$10$xpYCukDqWzsy9qbv5h8b4ObsthbpdkUwXHPcKPHNel1ohR8ztMncW', 'admin');

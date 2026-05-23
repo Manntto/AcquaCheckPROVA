@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database/sequelize.js"; 
 
 const User = sequelize.define(
-  "User", // Nome do modelo no singular
+  "User",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -28,7 +28,8 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "users", 
+    tableName: "users",
+    timestamps: false, 
   }
 );
 
