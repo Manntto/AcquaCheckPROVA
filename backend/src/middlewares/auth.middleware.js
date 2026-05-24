@@ -1,11 +1,10 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 // Ajuste a rota se necessário e inclua a extensão .json
-import { messages } from "../config/messages.json" assert { type: "json" }; 
-
+import { messages } from "../config/constants.js";
 const jwtSecret = process.env.JWT_SECRET;
 
-export const authenticator = (req, res, next) => {
+export default async function authenticator (req, res, next){
   // Pega o header da requisição
   const authHeader = req.headers.authorization;
 
@@ -21,7 +20,7 @@ export const authenticator = (req, res, next) => {
     // Verifica se o token é válido
     const decoded = jwt.verify(token, jwtSecret);
     
-    // Injeta os dados decodificados (id, role, etc) em inglês para manter o padrão
+    // Injeta os dados decodificados (id, role, etc)
     req.user = decoded; 
     
     next();

@@ -1,10 +1,10 @@
 import User from "../../model/User.js"
-import { config, messages } from "../../config/constants.js";
+import { messages, config} from "../../config/constants.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-export const login = async (req, res) => {
+export default async function login (req, res){
   const { email, password } = req.body;
   const user = await User.findOne({
     where: { email },
