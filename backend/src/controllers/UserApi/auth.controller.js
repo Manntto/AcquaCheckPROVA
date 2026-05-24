@@ -11,12 +11,12 @@ export default async function login (req, res){
   });
 
   if (!user) {
-    return res.status(404).json({ message: messages.auth.userNotFound });
+    return res.status(404).json({ message: messages.auth.error.userNotFound });
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    return res.status(404).json({ message: messages.auth.invalidPassword });
+    return res.status(404).json({ message: messages.auth.error.invalidPassword });
   }
 
   const loggedUser = { id: user.id, role: user.role };

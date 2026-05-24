@@ -4,13 +4,13 @@ import "dotenv/config";
 import { messages } from "../config/constants.js";
 const jwtSecret = process.env.JWT_SECRET;
 
-export default async function authenticator (req, res, next){
+export default async function authenticator(req, res, next) {
   // Pega o header da requisição
   const authHeader = req.headers.authorization;
 
   // Valida se ele existe ou se começa com 'Bearer '
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: messages.auth.noToken });
+    return res.status(401).json({ message: messages.auth.error.noToken });
   }
 
   // Separa o "Bearer" do "TOKEN_AQUI" de forma segura
@@ -19,12 +19,12 @@ export default async function authenticator (req, res, next){
   try {
     // Verifica se o token é válido
     const decoded = jwt.verify(token, jwtSecret);
-    
+
     // Injeta os dados decodificados (id, role, etc)
-    req.user = decoded; 
-    
+    req.user = decoded;
+
     next();
   } catch (error) {
-    return res.status(401).json({ message: messages.auth.invalidToken });
+    return res.status(401).json({ message: messages.auth.error.invalidToken });
   }
-};
+}

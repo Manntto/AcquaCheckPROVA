@@ -1,30 +1,69 @@
 {
   "common": {
-    "serverError": "Erro inesperado no Servidor",
-    "deleted": "Excluído com sucesso!"
+    "error": {
+      "serverError": "Erro inesperado no servidor"
+    }
   },
   "auth": {
-    "userNotFound": "Usuário não encontrado",
-    "invalidPassword": "Senha incorreta",
-    "noToken": "Usuário não autenticado",
-    "invalidToken": "Token não validado"
+    "error": {
+      "userNotFound": "Usuário não encontrado",
+      "invalidPassword": "Senha incorreta",
+      "noToken": "Usuário não autenticado",
+      "invalidToken": "Token inválido"
+    }
+  },
+  "user": {
+    "error": {
+      "requiredName": "Nome é obrigatório",
+      "requiredEmail": "E-mail é obrigatório",
+      "requiredPassword": "Senha é obrigatória"
+    },
+    "success": {
+      "created": "Usuário criado com sucesso",
+      "deleted": "Usuário excluído com sucesso",
+      "updated": "Usuário atualizado com sucesso"
+    }
   },
   "attraction": {
-    "requiredName": "Insira um nome para a atração",
-    "created": "Atração criada com sucesso!",
-    "deleted": "Atração excluída com sucesso!"
+    "error": {
+      "requiredName": "Nome da atração é obrigatório",
+      "notFound": "Atração não encontrada",
+      "fetchError": "Falha ao buscar atração",
+      "createError": "Erro ao criar atração",
+      "deleteError": "Erro ao excluir atração"
+    },
+    "success": {
+      "created": "Atração criada com sucesso",
+      "deleted": "Atração excluída com sucesso",
+      "updated": "Atração atualizada com sucesso"
+    }
   },
   "checklist": {
-    "requiredAttraction": "Insira a atração",
-    "created": "Checklist criado com sucesso",
-    "fetchError": "Falha ao buscar Checklist",
-    "createError": "Erro ao criar Checklist",
-    "deleted": "Checklist excluída com sucesso!"
+    "error": {
+      "requiredAttraction": "Atração é obrigatória",
+      "notFound": "Checklist não encontrado",
+      "fetchError": "Falha ao buscar checklist",
+      "createError": "Erro ao criar checklist",
+      "deleteError": "Erro ao excluir checklist"
+    },
+    "success": {
+      "created": "Checklist criado com sucesso",
+      "deleted": "Checklist excluído com sucesso",
+      "updated": "Checklist atualizado com sucesso"
+    }
   },
   "question": {
-    "requiredText": "Adicione uma pergunta para a atração",
-    "created": "Pergunta adicionada com Sucesso!",
-    "fetchError": "Falha ao adicionar a pergunta",
-    "Deleted": "Pergunta deletada com sucesso!"
+    "error": {
+      "requiredText": "Texto da pergunta é obrigatório",
+      "notFound": "Pergunta não encontrada",
+      "fetchError": "Falha ao buscar pergunta",
+      "createError": "Erro ao criar pergunta",
+      "deleteError": "Erro ao excluir pergunta"
+    },
+    "success": {
+      "created": "Pergunta criada com sucesso",
+      "deleted": "Pergunta excluída com sucesso",
+      "updated": "Pergunta atualizada com sucesso"
+    }
   }
 }

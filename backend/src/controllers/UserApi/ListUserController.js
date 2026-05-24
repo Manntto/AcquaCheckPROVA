@@ -1,8 +1,5 @@
 import User from "../../model/User.js";
 import { messages } from "../../config/constants.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import "dotenv/config";
 
 export default async function ListUserController(req, res) {
   try {
@@ -13,6 +10,6 @@ export default async function ListUserController(req, res) {
     //mandado como resposta
     res.json(users);
   } catch {
-    res.status(500).json({ message: messages.common.ServerError });
+    res.status(500).json({ message: messages.Common.error.serverError });
   }
 }
