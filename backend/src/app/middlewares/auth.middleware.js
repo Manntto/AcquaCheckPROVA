@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 // Ajuste a rota se necessário e inclua a extensão .json
-import { messages } from "../config/constants.js";
+import { messages } from "../../config/constants.js";
 const jwtSecret = process.env.JWT_SECRET;
 
 export default async function authenticator(req, res, next) {
