@@ -1,0 +1,42 @@
+// AcquaCheck — Diagrama de Banco de Dados
+// Cole este conteúdo em https://dbdiagram.io para gerar os diagramas
+// Depois exporte como PNG e salve como der.png e modelo_logico.png
+
+Table users {
+  id       integer     [pk, increment]
+  name     varchar(100) [not null]
+  email    varchar(100) [not null, unique]
+  password varchar(250) [not null]
+  role     varchar(20)  [not null, note: "admin | inspector"]
+}
+
+Table attractions {
+  id     integer      [pk, increment]
+  name   varchar(100) [not null]
+  active boolean      [not null, default: true]
+}
+
+Table questions {
+  id            integer      [pk, increment]
+  attraction_id integer      [not null, ref: > attractions.id]
+  question      varchar(255) [not null]
+}
+
+Table checklists {
+  id            integer     [pk, increment]
+  user_id       integer     [not null, ref: > users.id]
+  attraction_id integer     [not null, ref: > attractions.id]
+  date_time     timestamptz [not null, default: `now()`]
+  notes         text
+}
+
+Table checklist_items {
+  id           integer [pk, increment]
+  checklist_id integer [not null, ref: > checklists.id]
+  question_id  integer [not null, ref: > questions.id]
+  compliant    boolean [not null]
+
+  indexes {
+    (checklist_id, question_id) [unique]
+  }
+}
