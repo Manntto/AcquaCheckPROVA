@@ -1,5 +1,5 @@
 import User from "../../model/User.js"
-import { messages, config} from "../../config/constants.js";
+import { messages, config } from "../../../config/constants.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import "dotenv/config";

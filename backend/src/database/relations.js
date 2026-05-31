@@ -1,8 +1,8 @@
-import User from '../model/User.js';
-import Attraction from '../model/Attraction.js';
-import Question from '../model/Question.js';
-import Checklist from '../model/Checklist.js';
-import ItemChecklist from '../model/ItemChecklist.js';
+import User from '../app/model/User.js';
+import Attraction from '../app/model/Attraction.js';
+import Question from '../app/model/Question.js';
+import Checklist from '../app/model/Checklist.js';
+import ItemChecklist from '../app/model/ItemChecklist.js';
 
 export default function initRelations() {
     // 1. Attraction <-> Question (1:N)

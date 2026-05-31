@@ -1,28 +1,24 @@
 import User from "../../model/User.js";
 import { messages } from "../../../config/constants.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import "dotenv/config";
 
-export default async function CreateUserController (req, res){
-    try{
-        const {name, email, passoword} = req.body;
-        if (!name) {
-            error.push("name obrigatório!");
-        }
+export default async function CreateUserController(req, res) {
+  try {
+    const { name, email, password, role } = req.body;
+    const errors = [];
 
-        if (!email) {
-            error.push("email obrigatório!");
-        }
+    if (!name) errors.push(messages.user.error.requiredName);
+    if (!email) errors.push(messages.user.error.requiredEmail);
+    if (!password) errors.push(messages.user.error.requiredPassword);
+    if (errors.length > 0) return res.status(400).json({ errors });
 
-        if (!password) {
-            error.push("password obrigatório!");
-        }
+    const hashed = await bcrypt.hash(password, 10);
+    const user = await User.create({ name, email, password: hashed, role: role || "inspector" });
 
-        if (error.length > 0) {
-            return response.status(400).json({ error: error });
-        }
-    }
-
-
+    return res.status(201).json({ id: user.id, name: user.name, email: user.email, role: user.role });
+  } catch (err) {
+    if (err.name === "SequelizeUniqueConstraintError")
+      return res.status(409).json({ message: "E-mail já cadastrado" });
+    return res.status(500).json({ message: messages.common.error.serverError });
+  }
 }

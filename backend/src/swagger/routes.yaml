@@ -1,0 +1,446 @@
+paths:
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login e geração de token JWT
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: admin@acquacheck.com
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        "200":
+          description: Token JWT gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "404":
+          description: Usuário não encontrado ou senha inválida
+
+  /users:
+    get:
+      tags: [Users]
+      summary: Listar todos os usuários
+      responses:
+        "200":
+          description: Lista de usuários
+    post:
+      tags: [Users]
+      summary: Criar usuário
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+                  enum: [admin, inspector]
+                  default: inspector
+      responses:
+        "201":
+          description: Usuário criado
+        "409":
+          description: E-mail já cadastrado
+
+  /users/{id}:
+    get:
+      tags: [Users]
+      summary: Buscar usuário por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Usuário encontrado
+        "404":
+          description: Não encontrado
+    put:
+      tags: [Users]
+      summary: Atualizar usuário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: string
+      responses:
+        "200":
+          description: Atualizado
+        "404":
+          description: Não encontrado
+    delete:
+      tags: [Users]
+      summary: Excluir usuário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Excluído
+        "404":
+          description: Não encontrado
+
+  /attractions:
+    get:
+      tags: [Attractions]
+      summary: Listar atrações
+      responses:
+        "200":
+          description: Lista de atrações
+    post:
+      tags: [Attractions]
+      summary: Criar atração
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+                  default: true
+      responses:
+        "201":
+          description: Atração criada
+
+  /attractions/{id}:
+    get:
+      tags: [Attractions]
+      summary: Buscar atração por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Atração encontrada
+        "404":
+          description: Não encontrada
+    put:
+      tags: [Attractions]
+      summary: Atualizar atração
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                active:
+                  type: boolean
+      responses:
+        "200":
+          description: Atualizada
+    delete:
+      tags: [Attractions]
+      summary: Excluir atração
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Excluída
+
+  /questions:
+    get:
+      tags: [Questions]
+      summary: Listar perguntas
+      responses:
+        "200":
+          description: Lista de perguntas
+    post:
+      tags: [Questions]
+      summary: Criar pergunta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [attractionId, question]
+              properties:
+                attractionId:
+                  type: integer
+                question:
+                  type: string
+      responses:
+        "201":
+          description: Pergunta criada
+
+  /questions/{id}:
+    get:
+      tags: [Questions]
+      summary: Buscar pergunta por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Pergunta encontrada
+        "404":
+          description: Não encontrada
+    put:
+      tags: [Questions]
+      summary: Atualizar pergunta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attractionId:
+                  type: integer
+                question:
+                  type: string
+      responses:
+        "200":
+          description: Atualizada
+    delete:
+      tags: [Questions]
+      summary: Excluir pergunta
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Excluída
+
+  /checklists:
+    get:
+      tags: [Checklists]
+      summary: Listar checklists
+      responses:
+        "200":
+          description: Lista de checklists
+    post:
+      tags: [Checklists]
+      summary: Criar checklist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [attractionId]
+              properties:
+                attractionId:
+                  type: integer
+                dateTime:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+      responses:
+        "201":
+          description: Checklist criado
+
+  /checklists/{id}:
+    get:
+      tags: [Checklists]
+      summary: Buscar checklist por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Checklist encontrado
+        "404":
+          description: Não encontrado
+    put:
+      tags: [Checklists]
+      summary: Atualizar checklist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attractionId:
+                  type: integer
+                dateTime:
+                  type: string
+                  format: date-time
+                notes:
+                  type: string
+      responses:
+        "200":
+          description: Atualizado
+    delete:
+      tags: [Checklists]
+      summary: Excluir checklist
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Excluído
+
+  /items/checklist/{checklistId}:
+    get:
+      tags: [Items]
+      summary: Listar itens de um checklist
+      parameters:
+        - in: path
+          name: checklistId
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de itens
+
+  /items/{id}:
+    get:
+      tags: [Items]
+      summary: Buscar item por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Item encontrado
+        "404":
+          description: Não encontrado
+    put:
+      tags: [Items]
+      summary: Atualizar item
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                compliant:
+                  type: boolean
+      responses:
+        "200":
+          description: Atualizado
+    delete:
+      tags: [Items]
+      summary: Excluir item
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Excluído
+
+  /items:
+    post:
+      tags: [Items]
+      summary: Criar item de checklist
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [checklistId, questionId, compliant]
+              properties:
+                checklistId:
+                  type: integer
+                questionId:
+                  type: integer
+                compliant:
+                  type: boolean
+      responses:
+        "201":
+          description: Item criado
+        "409":
+          description: Item já existe
