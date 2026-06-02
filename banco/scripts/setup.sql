@@ -1,6 +1,6 @@
 -- =============================================================
 -- AcquaCheck — Script DDL Completo
--- Banco: PostgreSQL 15
+-- Banco: PostgreSQL 17
 -- =============================================================
 
 -- Garante execução limpa em ambiente de desenvolvimento

@@ -2,7 +2,7 @@
 
 ## 1. Escolha Tecnológica
 
-### Banco de Dados: PostgreSQL 15
+### Banco de Dados: PostgreSQL 17
 
 **Por que SQL e não NoSQL?**
 

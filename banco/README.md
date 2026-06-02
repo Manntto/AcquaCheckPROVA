@@ -4,7 +4,7 @@ Sistema de inspeção de segurança para atrações aquáticas.
 
 ## Tecnologia
 
-- **PostgreSQL 15** via Docker
+- **PostgreSQL 17** via Docker
 - **ORM:** Sequelize 6 (Node.js)
 
 ## Estrutura do Repositório
@@ -73,10 +73,10 @@ O seed inclui:
 - 10 usuários (1 admin + 9 inspetores)
 - 8 atrações
 - 24 perguntas (3 por atração)
-- 20 checklists
-- 60 itens de checklist
+- 23 checklists (20 históricos + 3 do mês atual)
+- 69 itens de checklist
 
-**Total: 122 registros**
+**Total: 134 registros**
 
 ## Documentação Completa
 

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 import { config } from "./config/constants.js";
 import { setupSwagger } from "./swagger.js";
 import authRoutes from "./routes/auth.routes.js";
@@ -11,6 +12,7 @@ import itemChecklistRoutes from "./routes/item-checklist.routes.js";
 
 const app = express();
 
+app.use(helmet());
 app.use(cors({ origin: config.server.corsOrigin }));
 app.use(express.json());
 

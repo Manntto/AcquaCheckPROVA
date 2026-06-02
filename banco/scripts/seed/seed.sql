@@ -70,7 +70,7 @@ INSERT INTO questions (attraction_id, question) VALUES
 (8, 'O sistema de frenagem na saída está operacional?');
 
 -- -------------------------------------------------------------
--- CHECKLISTS (20 registros)
+-- CHECKLISTS (23 registros)
 -- -------------------------------------------------------------
 INSERT INTO checklists (user_id, attraction_id, date_time, notes) VALUES
 (2, 1, '2025-01-10 08:00:00-03', NULL),
@@ -92,10 +92,14 @@ INSERT INTO checklists (user_id, attraction_id, date_time, notes) VALUES
 (5, 3, '2025-03-20 08:30:00-03', NULL),
 (6, 4, '2025-03-20 08:45:00-03', 'Temperatura da água abaixo do ideal, ajustada'),
 (7, 5, '2025-03-20 09:00:00-03', NULL),
-(8, 6, '2025-03-20 09:15:00-03', NULL);
+(8, 6, '2025-03-20 09:15:00-03', NULL),
+-- Checklists do mês atual (garantem resultado na Consulta 5 de produtividade)
+(2, 1, NOW(), NULL),
+(3, 2, NOW(), NULL),
+(4, 3, NOW(), NULL);
 
 -- -------------------------------------------------------------
--- CHECKLIST_ITEMS (60 registros — 3 itens por checklist)
+-- CHECKLIST_ITEMS (69 registros — 3 itens por checklist)
 -- Cada checklist responde as 3 perguntas da sua atração
 -- -------------------------------------------------------------
 INSERT INTO checklist_items (checklist_id, question_id, compliant) VALUES
@@ -138,4 +142,8 @@ INSERT INTO checklist_items (checklist_id, question_id, compliant) VALUES
 -- Checklist 19 (atração 5, perguntas 13-15)
 (19,13, TRUE),  (19,14, TRUE),  (19,15, TRUE),
 -- Checklist 20 (atração 6, perguntas 16-18)
-(20,16, TRUE),  (20,17, FALSE), (20,18, TRUE);
+(20,16, TRUE),  (20,17, FALSE), (20,18, TRUE),
+-- Checklists 21-23 (mês atual — garantem resultado na Consulta 5)
+(21, 1, TRUE),  (21, 2, TRUE),  (21, 3, TRUE),
+(22, 4, TRUE),  (22, 5, FALSE), (22, 6, TRUE),
+(23, 7, TRUE),  (23, 8, TRUE),  (23, 9, TRUE);
