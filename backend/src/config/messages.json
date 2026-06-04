@@ -65,5 +65,21 @@
       "deleted": "Pergunta excluída com sucesso",
       "updated": "Pergunta atualizada com sucesso"
     }
+  },
+  "item": {
+    "error": {
+      "notFound": "Item não encontrado",
+      "requiredFields": "checklistId, questionId e compliant são obrigatórios",
+      "duplicate": "Item já existe neste checklist para esta pergunta"
+    },
+    "success": {
+      "updated": "Item atualizado com sucesso",
+      "deleted": "Item excluído com sucesso"
+    }
+  },
+  "user": {
+    "error": {
+      "notFound": "Usuário não encontrado"
+    }
   }
 }

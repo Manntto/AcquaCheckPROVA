@@ -36,13 +36,13 @@ docker-compose up -d
 ### 2. Criar as tabelas
 
 ```bash
-docker exec -i db_acquacheck_container psql -U $POSTGRES_USER -d $POSTGRES_DB < banco/scripts/setup.sql
+docker compose exec db psql -U $POSTGRES_USER -d $POSTGRES_DB < banco/scripts/setup.sql
 ```
 
 ### 3. Carregar os dados de teste
 
 ```bash
-docker exec -i db_acquacheck_container psql -U $POSTGRES_USER -d $POSTGRES_DB < banco/scripts/seed/seed.sql
+docker compose exec db psql -U $POSTGRES_USER -d $POSTGRES_DB < banco/scripts/seed/seed.sql
 ```
 
 ## Modelo de Dados

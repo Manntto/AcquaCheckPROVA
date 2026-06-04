@@ -4,7 +4,7 @@ import { messages } from "../../../config/constants.js";
 export default async function DeleteUserController(req, res) {
   try {
     const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
+    if (!user) return res.status(404).json({ message: messages.user.error.notFound });
     await user.destroy();
     return res.json({ message: messages.user.success.deleted });
   } catch {

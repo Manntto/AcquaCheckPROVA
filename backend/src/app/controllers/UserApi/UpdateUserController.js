@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 export default async function UpdateUserController(req, res) {
   try {
     const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
+    if (!user) return res.status(404).json({ message: messages.user.error.notFound });
 
     const { name, email, password, role } = req.body;
     const updates = {};

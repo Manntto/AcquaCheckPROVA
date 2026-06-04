@@ -149,6 +149,7 @@ POSTGRES_USER=admin
 POSTGRES_PASSWORD=sua_senha_aqui
 JWT_SECRET=seu_segredo_jwt_aqui
 DB_HOST=db
+CORS_ORIGIN=http://localhost:5173
 ```
 
 > ⚠️ O arquivo `.env` já está no `.gitignore` — nunca commite credenciais reais.
@@ -226,8 +227,8 @@ O `.dockerignore` exclui `node_modules/`, `.env`, `.git` e logs — reduz o cont
 
 | Volume | Serviço | Dado persistido |
 |---|---|---|
-| `acquacheckprova_postgres_data` | `db` | Banco PostgreSQL completo |
-| `acquacheckprova_redis_data` | `redis` | Cache Redis |
+| `postgres_data` | `db` | Banco PostgreSQL completo |
+| `redis_data` | `redis` | Cache Redis |
 
 Named Volumes sobrevivem a `docker compose down` e restart. Bind mounts não são usados para dados persistentes.
 
@@ -260,7 +261,7 @@ Host :80
 docker compose ps
 
 # Volumes persistentes
-docker volume ls | grep acquacheck
+docker volume ls | grep postgres_data
 
 # DNS interno (Service Discovery)
 docker network inspect acquacheckprova_internal \

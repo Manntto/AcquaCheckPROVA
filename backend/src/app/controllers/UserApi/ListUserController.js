@@ -5,7 +5,7 @@ export default async function ListUserController(req, res) {
   try {
     // pegando name email dos usuarios
     const users = await User.findAll({
-      attributes: ["name", "email"],
+      attributes: ["id", "name", "email", "role"],
     });
     //mandado como resposta
     res.json(users);

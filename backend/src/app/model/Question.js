@@ -16,7 +16,7 @@ const Question = sequelize.define(
       references: { model: "attractions", key: "id" },
     },
     question: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
   },
