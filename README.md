@@ -312,6 +312,32 @@ O pipeline `.github/workflows/deploy.yml` automatiza o ciclo a cada push na bran
 
 Credenciais AWS configuradas via **GitHub Secrets** (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) — sem chaves fixas no código.
 
+### Evidência de Execução do Pipeline
+
+Pipeline executado com sucesso em: https://github.com/Manntto/AquaCHeck/actions
+
+Imagem publicada no ECR com duas tags (rastreabilidade):
+
+```json
+{
+    "repositoryName": "acquacheck-backend",
+    "imageTags": [
+        "latest",
+        "cd37e938131a66febfe461e688579bedafbf1444"
+    ],
+    "imageSizeInBytes": 65807558,
+    "imageStatus": "ACTIVE"
+}
+```
+
+Verificação via CLI:
+```bash
+aws ecr describe-images --repository-name acquacheck-backend --region us-east-1
+```
+
+![Pipeline ECR](docs/ecr-pipeline-sucess.png)
+![Imagens no ECR](docs/ecr-describe.png)
+
 ```bash
 # Fluxo manual equivalente:
 aws ecr get-login-password --region us-east-1 \
