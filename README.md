@@ -261,7 +261,7 @@ Host :80
 docker compose ps
 
 # Volumes persistentes
-docker volume ls | grep postgres_data
+docker volume ls | grep acquacheck
 
 # DNS interno (Service Discovery)
 docker network inspect acquacheckprova_internal \

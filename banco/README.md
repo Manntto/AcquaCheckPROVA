@@ -18,7 +18,7 @@ banco/
 ├── scripts/
 │   ├── setup.sql               # DDL: criação de tabelas, constraints e índices
 │   └── seed/
-│       └── seed.sql            # Dados de teste (122 registros)
+│       └── seed.sql            # Dados de teste (134 registros)
 ├── queries/
 │   └── consultas_avancadas.sql # 5 consultas críticas documentadas
 └── justificativa/
@@ -30,7 +30,7 @@ banco/
 ### 1. Subir o banco via Docker
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 2. Criar as tabelas
