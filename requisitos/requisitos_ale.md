@@ -63,12 +63,12 @@ O arquiteto deve escolher o serviço baseado no paradigma correto (AWS Storage):
 - Decisão Arquitetural: O arquiteto deve preterir o uso de instâncias EC2 para bancos de dados (gerenciamento manual) em favor do RDS, e justificar o uso de S3/RDS sobre EFS (File Storage) para este cenário de infraestrutura web.
 
 ## 4. Automação e Ciclo de Vida (CI/CD)
-A integração com o Amazon ECR (Elastic Container Registry) é o ponto central da automação. O fluxo deve seguir as fases:
+A automação do ciclo de vida da imagem Docker é o ponto central da entrega. O fluxo deve seguir as fases:
 
-1. Build: Geração da imagem otimizada.
-2. Image Generation: Tagging da imagem com a versão correspondente.
-3. ECR Push: Envio da imagem para o registro privado da AWS.
-4. Deployment: Atualização do serviço (ECS ou Swarm) consumindo a nova imagem do ECR.
+1. Build: Geração da imagem otimizada via `docker build` usando o Dockerfile multi-stage.
+2. Tag: Tagging da imagem com duas tags — `latest` e o SHA do commit (rastreabilidade).
+3. Push: Envio da imagem para um registro de contêineres (Docker Hub ou registro privado).
+4. Deployment: Atualização do serviço via `docker compose up` ou `docker stack deploy` consumindo a nova imagem.
 
 ## 5. Matriz de Avaliação e Pesos
 
@@ -78,7 +78,8 @@ A integração com o Amazon ECR (Elastic Container Registry) é o ponto central 
 | Arquitetura de Rede | 25% | VPC com Private Subnets (AWS) ou Custom Bridge com DNS (Docker). DB em subnet pública = 0%. |
 | Persistência de Dados | 20% | Uso de RDS Multi-AZ e S3 (11 noves) ou Named Volumes resilientes. |
 | Segurança e IAM | 20% | IAM Roles sem chaves fixas (AWS) ou isolamento de redes/usuários (Docker). |
-| Automação (CI/CD) | 15% | Pipeline integrado ao Amazon ECR com evidência de push/deploy. |
+| Automação (CI/CD) | 15% | Pipeline com build, tag (latest + SHA) e push para registro Docker, com evidência de deploy via Compose/Swarm. |
+## FAZER TUDO EM DOCKER, 
 
 ## 6. Evidências Obrigatórias para Entrega
 A defesa técnica exige a apresentação dos seguintes itens:
@@ -87,7 +88,7 @@ A defesa técnica exige a apresentação dos seguintes itens:
 2. Prova de Domínio CLI: O aluno deve apresentar a saída de comandos via terminal para provar que não dependeu exclusivamente da interface gráfica:
    - Docker: `docker service ps` ou `docker inspect <network_name>` para mostrar a resolução DNS.
    - AWS: `aws ec2 describe-instances` ou `aws ecs list-tasks` para validar recursos em execução.
-3. Logs do Pipeline: Captura da saída do build da imagem e o sucesso do `docker push` para o ECR.
+3. Logs do Pipeline: Captura da saída do build da imagem e o sucesso do `docker push` para o registro de contêineres (Docker Hub ou registro privado).
 4. PoC (Prova de Conceito):
    - Persistência: Reinicializar o serviço e provar que os dados no banco persistem.
    - Segurança: Demonstração de que o banco de dados (na private subnet ou rede isolada) é inacessível diretamente pela internet, validando as regras de Security Group.

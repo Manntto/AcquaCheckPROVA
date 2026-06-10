@@ -245,6 +245,32 @@ Host :80
 
 `db` e `redis` não têm portas mapeadas para o host — inacessíveis diretamente da internet.
 
+### Do Compose ao Cluster (Swarm/Stack)
+
+O `docker-compose.yml` define a arquitetura de forma declarativa para ambiente **single-host** (desenvolvimento/staging). Para produção **multi-host** com alta disponibilidade, o mesmo arquivo serve de base para uma **Stack** no Docker Swarm:
+
+```bash
+# Inicializar o Swarm (uma vez no nó manager)
+docker swarm init
+
+# Deploy da stack (usa o mesmo docker-compose.yml)
+docker stack deploy -c docker-compose.yml acquacheck
+
+# Escalar o backend para 3 réplicas
+docker service scale acquacheck_backend=3
+
+# Verificar os serviços e réplicas em execução
+docker stack ps acquacheck
+docker service ps acquacheck_backend
+```
+
+| Modo | Ferramenta | Uso |
+|---|---|---|
+| Single-host | `docker compose up` | Desenvolvimento / staging |
+| Multi-host | `docker stack deploy` | Produção com réplicas e failover |
+
+O Swarm gerencia o ciclo de vida das réplicas automaticamente — se um container falha, o scheduler reinicia em outro nó sem intervenção manual.
+
 ### Segurança
 
 - Credenciais injetadas via `.env` — nunca hardcoded
@@ -301,52 +327,29 @@ docker compose down -v
 
 ---
 
-## CI/CD — Build, Tag e Push para Amazon ECR
+## CI/CD — Build, Tag e Push para Docker Hub
 
 O pipeline `.github/workflows/deploy.yml` automatiza o ciclo a cada push na branch `main`:
 
 1. **Build** — `docker build` usando o Dockerfile multi-stage do backend
 2. **Tag** — duas tags: `latest` e o SHA do commit (rastreabilidade)
-3. **ECR Push** — `docker push` para o registro privado da AWS
-4. **Deploy** — atualização do serviço ECS/Swarm com a nova imagem
+3. **Push** — `docker push` para o Docker Hub
+4. **Deploy** — atualização do serviço via `docker compose up` ou `docker stack deploy`
 
-Credenciais AWS configuradas via **GitHub Secrets** (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) — sem chaves fixas no código.
+Credenciais configuradas via **GitHub Secrets** (`DOCKER_USERNAME`, `DOCKER_PASSWORD`) — sem chaves fixas no código.
 
 ### Evidência de Execução do Pipeline
 
 Pipeline executado com sucesso em: https://github.com/Manntto/AquaCHeck/actions
 
-Imagem publicada no ECR com duas tags (rastreabilidade):
-
-```json
-{
-    "repositoryName": "acquacheck-backend",
-    "imageTags": [
-        "latest",
-        "cd37e938131a66febfe461e688579bedafbf1444"
-    ],
-    "imageSizeInBytes": 65807558,
-    "imageStatus": "ACTIVE"
-}
-```
-
-Verificação via CLI:
-```bash
-aws ecr describe-images --repository-name acquacheck-backend --region us-east-1
-```
-
-![Pipeline ECR](docs/ecr-pipeline-sucess.png)
-![Imagens no ECR](docs/ecr-describe.png)
-
 ```bash
 # Fluxo manual equivalente:
-aws ecr get-login-password --region us-east-1 \
-  | docker login --username AWS \
-    --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+docker login -u <DOCKER_USERNAME>
 
-docker build -t acquacheck-backend ./backend
-docker tag acquacheck-backend:latest \
-  <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/acquacheck-backend:latest
-docker push \
-  <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/acquacheck-backend:latest
+docker build -t <DOCKER_USERNAME>/acquacheck-backend:latest \
+             -t <DOCKER_USERNAME>/acquacheck-backend:<SHA> \
+             ./backend
+
+docker push <DOCKER_USERNAME>/acquacheck-backend:latest
+docker push <DOCKER_USERNAME>/acquacheck-backend:<SHA>
 ```
