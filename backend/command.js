@@ -37,7 +37,7 @@ async function migrate_fresh() {
 
 async function seed() {
   try {
-    const sql = readFileSync(join(__dirname, "../banco/scripts/seed/seed.sql"), "utf8");
+    const sql = readFileSync(join(__dirname, "src/database/seed.sql"), "utf8");
     await sequelize.query(sql);
     console.log("✅ Seed executado com sucesso.");
   } catch (err) {

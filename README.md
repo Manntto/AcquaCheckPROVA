@@ -119,6 +119,8 @@ docker compose version
 
 ## Como executar com Docker
 
+A forma mais simples é usar o script `setup.sh`, que faz tudo automaticamente:
+
 ```bash
 # 1. Clone o repositório
 git clone <url-do-repo>
@@ -128,14 +130,24 @@ cd AcquaCheckPROVA
 cp backend/.env.example backend/.env
 # Edite backend/.env com suas credenciais
 
-# 3. Suba todos os containers
-docker compose up --build -d
-
-# 4. Execute as migrations
-docker compose exec backend node command.js migrate
-
-# A API estará disponível em http://localhost
+# 3. Execute o script de inicialização
+./setup.sh
 ```
+
+O `setup.sh` realiza em sequência:
+1. `docker compose up --build -d` — sobe todos os containers
+2. Aguarda o banco ficar pronto
+3. `node command.js migrate` — cria/atualiza as tabelas
+4. `node command.js seed` — insere os dados de teste (100+ registros)
+
+**A API estará disponível em `http://localhost` com dados prontos para uso.**
+
+> Caso prefira executar manualmente, passo a passo:
+> ```bash
+> docker compose up --build -d
+> docker compose exec backend node command.js migrate
+> docker compose exec backend node command.js seed
+> ```
 
 ---
 
@@ -156,42 +168,48 @@ CORS_ORIGIN=http://localhost:5173
 
 ---
 
-## Como executar as migrations
+## Como executar as migrations e seed
 
 ```bash
 # Dentro do container backend (após docker compose up)
-docker compose exec backend node command.js migrate
+docker compose exec backend node command.js migrate       # cria/atualiza tabelas (ALTER)
+docker compose exec backend node command.js migrate:fresh # recria todas as tabelas (DROP + CREATE)
+docker compose exec backend node command.js seed          # insere 100+ registros de teste
 
 # Ou localmente (com banco acessível em localhost)
 cd backend
-node command.js migrate        # sincroniza tabelas (ALTER)
-node command.js migrate:fresh  # recria todas as tabelas (DROP + CREATE)
+node command.js migrate
+node command.js seed
 ```
+
+> O `seed.sql` está incluído na imagem Docker (`backend/src/database/seed.sql`), portanto funciona em qualquer máquina sem dependência de arquivos externos.
 
 ---
 
 ## Login e uso do token JWT
 
-**1. Criar um usuário:**
-```bash
-curl -X POST http://localhost/users \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Admin","email":"admin@acquacheck.com","password":"123456","role":"admin"}'
-```
+Após rodar o seed, o usuário admin já está criado. Basta fazer login diretamente:
 
-**2. Fazer login:**
+**1. Fazer login (usuário criado pelo seed):**
 ```bash
 curl -X POST http://localhost/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@acquacheck.com","password":"123456"}'
+  -d '{"email":"admin@acquacheck.com","password":"Senha@123"}'
 # Resposta: { "token": "eyJ..." }
 ```
 
-**3. Usar o token nas demais rotas:**
+**2. Usar o token nas demais rotas:**
 ```bash
 curl http://localhost/attractions \
   -H "Authorization: Bearer eyJ..."
 ```
+
+> Para criar um novo usuário manualmente:
+> ```bash
+> curl -X POST http://localhost/users \
+>   -H "Content-Type: application/json" \
+>   -d '{"name":"Novo","email":"novo@acquacheck.com","password":"123456","role":"inspector"}'
+> ```
 
 ---
 
